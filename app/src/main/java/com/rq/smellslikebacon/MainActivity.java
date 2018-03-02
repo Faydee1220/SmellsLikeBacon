@@ -1,7 +1,8 @@
 package com.rq.smellslikebacon;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -21,11 +22,11 @@ public class MainActivity extends LoggingActivity implements ListFragment.OnReci
         // 找不到 fragment 時會回傳 null（第一次建立時）
         // 因為兩個 fragment 是用同一個 id ，在第二個 fragment 轉向時會出錯，可改用 Tag 區分
 //        ListFragment savedFragment = (ListFragment) getFragmentManager().findFragmentById(R.id.placeholder);
-        ListFragment savedFragment = (ListFragment) getFragmentManager().findFragmentByTag(LIST_FRAGMENT);
+        ListFragment savedFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag(LIST_FRAGMENT);
 
         if (savedFragment == null) {
             ListFragment fragment = new ListFragment();
-            FragmentManager fragmentManager = getFragmentManager();
+            FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             // 第三個參數是 tag
             fragmentTransaction.add(R.id.placeholder, fragment, LIST_FRAGMENT);
@@ -45,7 +46,7 @@ public class MainActivity extends LoggingActivity implements ListFragment.OnReci
         bundle.putInt(ViewPagerFragment.KEY_RECIPE_INDEX, index);
         fragment.setArguments(bundle);
 
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         // 用 replace 更換新的 fragment
         fragmentTransaction.replace(R.id.placeholder, fragment, VIEWPAGER_FRAGMENT);

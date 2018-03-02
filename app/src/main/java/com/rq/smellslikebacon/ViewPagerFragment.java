@@ -1,12 +1,16 @@
 package com.rq.smellslikebacon;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Faydee on 2018/3/2.
@@ -15,6 +19,8 @@ import android.widget.Toast;
 public class ViewPagerFragment extends Fragment {
 
     public static final String KEY_RECIPE_INDEX = "recipe_index";
+    @BindView(R.id.viewPager) ViewPager viewPager;
+
 
     @Nullable
     @Override
@@ -22,10 +28,34 @@ public class ViewPagerFragment extends Fragment {
         // 取得傳遞參數
         int index = getArguments().getInt(KEY_RECIPE_INDEX);
 //        Toast.makeText(getActivity(), Recipes.names[index], Toast.LENGTH_SHORT).show();
+
         // 修改標題列
         getActivity().setTitle(Recipes.names[index]);
 
         View view = inflater.inflate(R.layout.fragment_viewpager, container, false);
+        ButterKnife.bind(this, view);
+
+        final IngredientsFragment ingredientsFragment = new IngredientsFragment();
+        final DirectionsFragment directionsFragment = new DirectionsFragment();
+
+        // getChildFragmentManager() 得搭配 import android.support.v4.app.Fragment;
+        viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+            @Override
+            public android.support.v4.app.Fragment getItem(int position) {
+                if (position == 0) {
+                    return ingredientsFragment;
+                }
+                else {
+                    return directionsFragment;
+                }
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+        });
+
         return view;
     }
 
