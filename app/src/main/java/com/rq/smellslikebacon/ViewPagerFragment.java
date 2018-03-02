@@ -2,6 +2,7 @@ package com.rq.smellslikebacon;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -20,7 +21,7 @@ public class ViewPagerFragment extends Fragment {
 
     public static final String KEY_RECIPE_INDEX = "recipe_index";
     @BindView(R.id.viewPager) ViewPager viewPager;
-
+    @BindView(R.id.tabLayout) TabLayout tabLayout;
 
     @Nullable
     @Override
@@ -42,19 +43,23 @@ public class ViewPagerFragment extends Fragment {
         viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public android.support.v4.app.Fragment getItem(int position) {
-                if (position == 0) {
-                    return ingredientsFragment;
-                }
-                else {
-                    return directionsFragment;
-                }
+                return position == 0 ? ingredientsFragment : directionsFragment;
             }
 
             @Override
             public int getCount() {
                 return 2;
             }
+
+            // 上方 Tab 的標題
+            @Nullable
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return position == 0 ? "Ingredients" : "Directions";
+            }
         });
+
+        tabLayout.setupWithViewPager(viewPager);
 
         return view;
     }
