@@ -18,11 +18,11 @@ import butterknife.ButterKnife;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder> {
 
-    private final ListFragment.OnRecipeSelectedInterface listenser;
+    private final ListFragment.OnRecipeSelectedInterface listener;
     private Context context;
 
-    public ListAdapter(ListFragment.OnRecipeSelectedInterface listenser) {
-        this.listenser = listenser;
+    public ListAdapter(ListFragment.OnRecipeSelectedInterface listener) {
+        this.listener = listener;
     }
 
     public class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -45,7 +45,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
 
         @Override
         public void onClick(View v) {
-            listenser.onListRecipeSelected(index);
+            listener.onListRecipeSelected(index);
         }
     }
 
