@@ -37,6 +37,11 @@ public class ViewPagerFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         final IngredientsFragment ingredientsFragment = new IngredientsFragment();
+        // 傳遞參數
+        Bundle bundle = new Bundle();
+        bundle.putInt(KEY_RECIPE_INDEX, index);
+        ingredientsFragment.setArguments(bundle);
+
         final DirectionsFragment directionsFragment = new DirectionsFragment();
 
         // getChildFragmentManager() 得搭配 import android.support.v4.app.Fragment;
