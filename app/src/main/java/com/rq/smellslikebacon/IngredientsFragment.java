@@ -18,8 +18,8 @@ import butterknife.ButterKnife;
  */
 
 public class IngredientsFragment extends Fragment {
-
     private static final String KEY_CHECKED_BOXES = "key_checked_boxes";
+
     @BindView(R.id.ingredientsLayout) LinearLayout ingredientsLayout;
 
     private CheckBox[] checkBoxes;

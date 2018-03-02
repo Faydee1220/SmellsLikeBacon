@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 public class ViewPagerFragment extends Fragment {
 
     public static final String KEY_RECIPE_INDEX = "recipe_index";
+    public static final String KEY_IS_INGREDIENTS = "is_ingredients";
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.tabLayout) TabLayout tabLayout;
 
@@ -43,6 +44,7 @@ public class ViewPagerFragment extends Fragment {
         ingredientsFragment.setArguments(bundle);
 
         final DirectionsFragment directionsFragment = new DirectionsFragment();
+        directionsFragment.setArguments(bundle);
 
         // getChildFragmentManager() 得搭配 import android.support.v4.app.Fragment;
         viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
