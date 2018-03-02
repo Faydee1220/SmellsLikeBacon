@@ -36,6 +36,7 @@ public class ListFragment extends LoggingFragment {
 
         ButterKnife.bind(this, view);
 
+        // 將 listener 放入 adapter
         OnRecipeSelectedInterface listener = (OnRecipeSelectedInterface) getActivity();
         ListAdapter listAdapter = new ListAdapter(listener);
         listRecycleView.setAdapter(listAdapter);
