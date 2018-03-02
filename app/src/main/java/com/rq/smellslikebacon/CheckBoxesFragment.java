@@ -17,10 +17,10 @@ import butterknife.ButterKnife;
  * Created by Faydee on 2018/3/2.
  */
 
-public class IngredientsFragment extends Fragment {
+public class CheckBoxesFragment extends Fragment {
     private static final String KEY_CHECKED_BOXES = "key_checked_boxes";
 
-    @BindView(R.id.ingredientsLayout) LinearLayout ingredientsLayout;
+    @BindView(R.id.checkBoxesLayout) LinearLayout checkBoxesLayout;
 
     private CheckBox[] checkBoxes;
 
@@ -28,12 +28,19 @@ public class IngredientsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         int index = getArguments().getInt(ViewPagerFragment.KEY_RECIPE_INDEX);
+        boolean isIngredients = getArguments().getBoolean(ViewPagerFragment.KEY_IS_INGREDIENTS);
 
-        View view = inflater.inflate(R.layout.fragment_ingredients, container, false);
+        View view = inflater.inflate(R.layout.fragment_checkboxes, container, false);
         ButterKnife.bind(this, view);
 
-        String[] ingredients = Recipes.ingredients[index].split("`");
-        checkBoxes = new CheckBox[ingredients.length];
+        String[] contents;
+        if (isIngredients) {
+            contents = Recipes.ingredients[index].split("`");
+        }
+        else {
+            contents = Recipes.directions[index].split("`");
+        }
+        checkBoxes = new CheckBox[contents.length];
 
         // 修正轉向時已勾選的項目會被清空的問題
         boolean[] checkedBoxes = new boolean[checkBoxes.length];
@@ -41,19 +48,19 @@ public class IngredientsFragment extends Fragment {
             checkedBoxes = savedInstanceState.getBooleanArray(KEY_CHECKED_BOXES);
         }
 
-        setupCheckBoxes(ingredients, checkedBoxes);
+        setupCheckBoxes(contents, checkedBoxes);
 
         return view;
     }
 
-    private void setupCheckBoxes(String[] ingredients, boolean[] checkedBoxes) {
+    private void setupCheckBoxes(String[] contents, boolean[] checkedBoxes) {
         int i = 0;
-        for (String ingredient : ingredients) {
+        for (String content : contents) {
             checkBoxes[i] = new CheckBox(getActivity());
             checkBoxes[i].setPadding(8, 16, 8 ,16);
             checkBoxes[i].setTextSize(20f);
-            checkBoxes[i].setText(ingredient);
-            ingredientsLayout.addView(checkBoxes[i]);
+            checkBoxes[i].setText(content);
+            checkBoxesLayout.addView(checkBoxes[i]);
             // 修正轉向時已勾選的項目會被清空的問題
             if (checkedBoxes[i]) {
                 checkBoxes[i].toggle();

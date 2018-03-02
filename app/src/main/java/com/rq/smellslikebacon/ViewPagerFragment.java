@@ -37,13 +37,15 @@ public class ViewPagerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_viewpager, container, false);
         ButterKnife.bind(this, view);
 
-        final IngredientsFragment ingredientsFragment = new IngredientsFragment();
+        final CheckBoxesFragment ingredientsFragment = new CheckBoxesFragment();
         // 傳遞參數
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_RECIPE_INDEX, index);
+        bundle.putBoolean(KEY_IS_INGREDIENTS, true);
         ingredientsFragment.setArguments(bundle);
 
-        final DirectionsFragment directionsFragment = new DirectionsFragment();
+        final CheckBoxesFragment directionsFragment = new CheckBoxesFragment();
+        bundle.putBoolean(KEY_IS_INGREDIENTS, false);
         directionsFragment.setArguments(bundle);
 
         // getChildFragmentManager() 得搭配 import android.support.v4.app.Fragment;
