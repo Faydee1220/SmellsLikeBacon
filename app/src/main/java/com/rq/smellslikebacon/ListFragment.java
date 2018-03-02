@@ -20,6 +20,10 @@ public class ListFragment extends Fragment {
 
     @BindView(R.id.listRecycleView)RecyclerView listRecycleView;
 
+    public interface OnRecipeSelectedInterface {
+        void onListRecipeSelected(int index);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -27,14 +31,17 @@ public class ListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
         ButterKnife.bind(this, view);
-        ListAdapter listAdapter = new ListAdapter();
+
+        OnRecipeSelectedInterface listenser = (OnRecipeSelectedInterface) getActivity();
+        ListAdapter listAdapter = new ListAdapter(listenser);
         listRecycleView.setAdapter(listAdapter);
 
         // 在 Fragment 內使用 getActivity()
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         listRecycleView.setLayoutManager(layoutManager);
-
         listRecycleView.setHasFixedSize(true);
+
+
         return view;
     }
 }

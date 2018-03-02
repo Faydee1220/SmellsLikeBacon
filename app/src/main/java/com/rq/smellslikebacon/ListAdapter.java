@@ -18,12 +18,18 @@ import butterknife.ButterKnife;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder> {
 
+    private final ListFragment.OnRecipeSelectedInterface listenser;
     private Context context;
+
+    public ListAdapter(ListFragment.OnRecipeSelectedInterface listenser) {
+        this.listenser = listenser;
+    }
 
     public class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.itemImageView) ImageView itemImageView;
         @BindView(R.id.itemTextView) TextView itemTextView;
+        private int index;
 
         public ListViewHolder(View itemView) {
             super(itemView);
@@ -34,11 +40,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         public void bindView(int position) {
             itemImageView.setImageResource(Recipes.resourceIds[position]);
             itemTextView.setText(Recipes.names[position]);
+            index = position;
         }
 
         @Override
         public void onClick(View v) {
-
+            listenser.onListRecipeSelected(index);
         }
     }
 
