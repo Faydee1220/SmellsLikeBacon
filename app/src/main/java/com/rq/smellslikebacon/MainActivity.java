@@ -7,31 +7,48 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class MainActivity extends LoggingActivity implements ListFragment.OnRecipeSelectedInterface {
+public class MainActivity extends LoggingActivity
+        implements ListFragment.OnRecipeSelectedInterface, GridFragment.OnRecipeSelectedInterface {
 
     public static final String LIST_FRAGMENT = "list_fragment";
     public static final String VIEWPAGER_FRAGMENT = "viewpager_fragment";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
+//        Toast.makeText(this, String.valueOf(isTablet), Toast.LENGTH_SHORT).show();
 
-        // 修正轉向時重複產生 Fragment
-        // 找不到 fragment 時會回傳 null（第一次建立時）
-        // 因為兩個 fragment 是用同一個 id ，在第二個 fragment 轉向時會出錯，可改用 Tag 區分
+        if (!isTablet) {
+            // 修正轉向時重複產生 Fragment
+            // 找不到 fragment 時會回傳 null（第一次建立時）
+            // 因為兩個 fragment 是用同一個 id ，在第二個 fragment 轉向時會出錯，可改用 Tag 區分
 //        ListFragment savedFragment = (ListFragment) getFragmentManager().findFragmentById(R.id.placeholder);
-        ListFragment savedFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag(LIST_FRAGMENT);
+            ListFragment savedFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag(LIST_FRAGMENT);
 
-        if (savedFragment == null) {
-            ListFragment fragment = new ListFragment();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            // 第三個參數是 tag
-            fragmentTransaction.add(R.id.placeholder, fragment, LIST_FRAGMENT);
-            fragmentTransaction.commit();
+            if (savedFragment == null) {
+                ListFragment fragment = new ListFragment();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                // 第三個參數是 tag
+                fragmentTransaction.add(R.id.placeholder, fragment, LIST_FRAGMENT);
+                fragmentTransaction.commit();
+            }
         }
+        else {
+            GridFragment savedFragment = (GridFragment) getSupportFragmentManager().findFragmentByTag(LIST_FRAGMENT);
+
+            if (savedFragment == null) {
+                GridFragment fragment = new GridFragment();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                // 第三個參數是 tag
+                fragmentTransaction.add(R.id.placeholder, fragment, LIST_FRAGMENT);
+                fragmentTransaction.commit();
+            }
+        }
+
 
     }
 
@@ -53,5 +70,10 @@ public class MainActivity extends LoggingActivity implements ListFragment.OnReci
         // 修正返回鍵，預設會跳出 App，此處改成回上一頁
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onGridRecipeSelected(int index) {
+
     }
 }
