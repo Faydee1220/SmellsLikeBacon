@@ -20,7 +20,6 @@ import butterknife.ButterKnife;
 public class ViewPagerFragment extends Fragment {
 
     public static final String KEY_RECIPE_INDEX = "recipe_index";
-    public static final String KEY_IS_INGREDIENTS = "is_ingredients";
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.tabLayout) TabLayout tabLayout;
 
@@ -37,15 +36,13 @@ public class ViewPagerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_viewpager, container, false);
         ButterKnife.bind(this, view);
 
-        final CheckBoxesFragment ingredientsFragment = new CheckBoxesFragment();
+        final IngredientsFragment ingredientsFragment = new IngredientsFragment();
         // 傳遞參數
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_RECIPE_INDEX, index);
-        bundle.putBoolean(KEY_IS_INGREDIENTS, true);
         ingredientsFragment.setArguments(bundle);
 
-        final CheckBoxesFragment directionsFragment = new CheckBoxesFragment();
-        bundle.putBoolean(KEY_IS_INGREDIENTS, false);
+        final DirectionsFragment directionsFragment = new DirectionsFragment();
         directionsFragment.setArguments(bundle);
 
         // getChildFragmentManager() 得搭配 import android.support.v4.app.Fragment;

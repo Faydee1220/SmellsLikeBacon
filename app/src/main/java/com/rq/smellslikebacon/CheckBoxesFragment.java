@@ -17,7 +17,10 @@ import butterknife.ButterKnife;
  * Created by Faydee on 2018/3/2.
  */
 
-public class CheckBoxesFragment extends Fragment {
+// An abstract class cannot be instantiated
+// i.e. you cannot create an object of that class.
+// You only extend it and override its methods if you want.
+public abstract class CheckBoxesFragment extends Fragment {
     private static final String KEY_CHECKED_BOXES = "key_checked_boxes";
 
     @BindView(R.id.checkBoxesLayout) LinearLayout checkBoxesLayout;
@@ -28,18 +31,11 @@ public class CheckBoxesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         int index = getArguments().getInt(ViewPagerFragment.KEY_RECIPE_INDEX);
-        boolean isIngredients = getArguments().getBoolean(ViewPagerFragment.KEY_IS_INGREDIENTS);
 
         View view = inflater.inflate(R.layout.fragment_checkboxes, container, false);
         ButterKnife.bind(this, view);
 
-        String[] contents;
-        if (isIngredients) {
-            contents = Recipes.ingredients[index].split("`");
-        }
-        else {
-            contents = Recipes.directions[index].split("`");
-        }
+        String[] contents = getContents(index);
         checkBoxes = new CheckBox[contents.length];
 
         // 修正轉向時已勾選的項目會被清空的問題
@@ -52,6 +48,8 @@ public class CheckBoxesFragment extends Fragment {
 
         return view;
     }
+
+    public abstract String[] getContents(int index);
 
     private void setupCheckBoxes(String[] contents, boolean[] checkedBoxes) {
         int i = 0;
