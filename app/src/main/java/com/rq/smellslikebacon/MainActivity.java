@@ -74,6 +74,19 @@ public class MainActivity extends LoggingActivity
 
     @Override
     public void onGridRecipeSelected(int index) {
+        DualPanelFragment fragment = new DualPanelFragment();
 
+        // 傳遞參數
+        Bundle bundle = new Bundle();
+        bundle.putInt(ViewPagerFragment.KEY_RECIPE_INDEX, index);
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        // 用 replace 更換新的 fragment
+        fragmentTransaction.replace(R.id.placeholder, fragment, VIEWPAGER_FRAGMENT);
+        // 修正返回鍵，預設會跳出 App，此處改成回上一頁
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
